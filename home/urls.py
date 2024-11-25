@@ -18,8 +18,21 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from house.views import Companyviews, studentviews, Teamsviews, pricingsViewSet
+from rest_framework import routers
+
+
+# Use a single instance of DefaultRouter
+router = routers.DefaultRouter()
+router.register('Company', Companyviews)
+router.register('student', studentviews)
+router.register('Teams', Teamsviews)
+router.register('pricings', pricingsViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     path('', include('house.urls')),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
